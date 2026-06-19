@@ -1,0 +1,21 @@
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import HowItWorks from "@/components/HowItWorks";
+import Features from "@/components/Features";
+import Integrations from "@/components/Integrations";
+import CTA from "@/components/CTA";
+import Footer from "@/components/Footer";
+
+export default function Home() {
+  return (
+    <main>
+      <Navbar />
+      <Hero />
+      <HowItWorks />
+      <Features />
+      <Integrations />
+      <CTA />
+      <Footer />
+    </main>
+  );
+}
