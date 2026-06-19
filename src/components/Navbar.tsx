@@ -16,9 +16,13 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-16 bg-white/80 backdrop-blur-md border-b border-gray-100">
       {/* Logo */}
       <a href="/" className="flex items-center gap-2">
-        <span className="w-7 h-7 rounded-lg bg-[#998DFF] flex items-center justify-center">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M3 8h10M8 3v10" stroke="white" strokeWidth="2.2" strokeLinecap="round"/>
+        <span className="w-8 h-8 rounded-xl bg-[#998DFF] flex items-center justify-center shadow-sm shadow-[#998DFF]/40">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            {/* Two rails converging upward */}
+            <path d="M4 15L9 3L14 15" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            {/* Cross ties */}
+            <path d="M6 11h6" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
+            <path d="M4.8 14h8.4" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
           </svg>
         </span>
         <span className="font-semibold text-[15px] tracking-tight text-gray-900">CreditRails</span>
