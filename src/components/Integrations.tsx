@@ -9,28 +9,28 @@ const integrations = [
 
 export default function Integrations() {
   return (
-    <section className="bg-white py-28 px-6" id="integrations">
+    <section className="bg-white py-16 md:py-28 px-5 md:px-6" id="integrations">
       <div className="max-w-5xl mx-auto">
-        <div className="mb-16 text-center">
+        <div className="mb-10 md:mb-16 text-center">
           <span className="text-xs font-semibold uppercase tracking-widest text-[#998DFF]">
             Integrations
           </span>
-          <h2 className="mt-3 text-4xl md:text-5xl font-bold text-gray-900 tracking-tight">
+          <h2 className="mt-3 text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
             Built into the Stellar ecosystem
           </h2>
-          <p className="mt-4 text-gray-500 max-w-lg mx-auto text-base">
+          <p className="mt-4 text-gray-500 max-w-lg mx-auto text-sm md:text-base">
             CreditRails plugs into the protocols where financial activity
             already happens — no new behavior required from users.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
           {integrations.map((i) => (
             <div
               key={i.name}
-              className="rounded-3xl border border-gray-100 bg-white/50 backdrop-blur-sm p-6 flex items-center gap-4 hover:border-[#D7D2FF] transition-colors"
+              className="rounded-2xl md:rounded-3xl border border-gray-100 bg-white/50 backdrop-blur-sm p-5 md:p-6 flex items-center gap-4 hover:border-[#D7D2FF] transition-colors"
             >
-              <div className="w-11 h-11 rounded-2xl bg-[#F4F3FF] flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 md:w-11 md:h-11 rounded-xl md:rounded-2xl bg-[#F4F3FF] flex items-center justify-center flex-shrink-0">
                 <span className="text-sm font-bold text-[#998DFF]">{i.logo}</span>
               </div>
               <div>

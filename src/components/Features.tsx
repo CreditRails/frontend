@@ -53,43 +53,47 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="py-28 px-6 bg-[#F6F7F4]" id="developers">
+    <section
+      className="py-16 md:py-28 px-5 md:px-6"
+      id="developers"
+      style={{ background: "linear-gradient(180deg, #EFEFFF 0%, #D7D2FF 100%)" }}
+    >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="mb-16 max-w-xl">
+        <div className="mb-10 md:mb-16 max-w-xl">
           <span className="text-xs font-semibold uppercase tracking-widest text-[#998DFF]">
             Core Infrastructure
           </span>
-          <h2 className="mt-3 text-4xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight">
+          <h2 className="mt-3 text-3xl md:text-5xl font-bold text-gray-900 tracking-tight leading-tight">
             Everything lenders need.{" "}
-            <span className="text-[#998DFF]">Nothing they shouldn't.</span>
+            <span className="text-[#998DFF]">Nothing they shouldn&apos;t.</span>
           </h2>
-          <p className="mt-4 text-gray-500 text-base leading-relaxed">
+          <p className="mt-4 text-gray-500 text-sm md:text-base leading-relaxed">
             CreditRails is built as modular infrastructure. Each layer is
             independently useful and composable together.
           </p>
         </div>
 
         {/* Feature grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {features.map((f) => (
             <div
               key={f.tag}
-              className="rounded-3xl bg-white p-8 border border-gray-100 hover:border-[#D7D2FF] transition-colors group"
+              className="rounded-2xl md:rounded-3xl bg-white p-6 md:p-8 border border-gray-100 hover:border-[#D7D2FF] transition-colors group"
             >
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-11 h-11 rounded-2xl bg-[#F4F3FF] flex items-center justify-center">
+                <div className="flex-shrink-0 w-10 h-10 md:w-11 md:h-11 rounded-2xl bg-[#F4F3FF] flex items-center justify-center">
                   {f.icon}
                 </div>
                 <div>
                   <span className="text-xs font-semibold text-[#998DFF] uppercase tracking-widest">
                     {f.tag}
                   </span>
-                  <h3 className="mt-1.5 text-lg font-semibold text-gray-900">{f.title}</h3>
+                  <h3 className="mt-1.5 text-base md:text-lg font-semibold text-gray-900">{f.title}</h3>
                 </div>
               </div>
-              <p className="mt-5 text-sm text-gray-500 leading-relaxed">{f.description}</p>
-              <div className="mt-5 flex items-center gap-2">
+              <p className="mt-4 md:mt-5 text-sm text-gray-500 leading-relaxed">{f.description}</p>
+              <div className="mt-4 md:mt-5 flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#998DFF]" />
                 <span className="text-sm font-medium text-[#998DFF]">{f.highlight}</span>
               </div>
