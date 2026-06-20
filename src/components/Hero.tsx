@@ -29,9 +29,26 @@ export default function Hero() {
         <span className="block text-4xl md:text-6xl lg:text-7xl font-black text-gray-900 tracking-tight">
           Infrastructure
         </span>
-        <span className="block mt-3 text-xl md:text-3xl font-normal text-gray-900 tracking-widest uppercase">
+        <span className="block mt-3 text-4xl md:text-6xl lg:text-7xl font-light text-gray-900 tracking-wide">
           for the{" "}
-          <span className="text-[#998DFF]">Open Economy</span>
+          <span className="relative inline-block text-[#998DFF] font-black tracking-tight">
+            Open Economy
+            <svg
+              className="absolute -bottom-2 left-0 w-full"
+              viewBox="0 0 300 10"
+              fill="none"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path
+                d="M4 6 Q 75 2, 150 6 Q 225 10, 296 5"
+                stroke="#998DFF"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                fill="none"
+              />
+            </svg>
+          </span>
         </span>
       </h1>
 
@@ -44,7 +61,7 @@ export default function Hero() {
       {/* CTAs */}
       <div className="relative mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full max-w-xs sm:max-w-none sm:w-auto">
         <a
-          href="#app"
+          href="/app"
           className="px-6 py-3 rounded-2xl bg-[#998DFF] text-white font-semibold text-sm hover:bg-[#8a7ef0] transition-colors shadow-lg shadow-[#998DFF]/30 text-center"
         >
           Get Credit Score

@@ -44,13 +44,13 @@ export default function Navbar() {
       {/* CTA buttons */}
       <div className="hidden md:flex items-center gap-3">
         <a
-          href="#docs"
+          href="/docs"
           className="px-4 py-2 text-sm rounded-xl bg-[#F4F3FF] text-[#A398FF] font-medium hover:bg-[#ede9ff] transition-colors"
         >
           Documentation
         </a>
         <a
-          href="#app"
+          href="/app"
           className="px-4 py-2 text-sm rounded-xl bg-[#998DFF] text-white font-medium hover:bg-[#8a7ef0] transition-colors"
         >
           Launch App
@@ -85,10 +85,10 @@ export default function Navbar() {
             </a>
           ))}
           <div className="flex gap-3 pt-2">
-            <a href="#docs" className="px-4 py-2 text-sm rounded-xl bg-[#F4F3FF] text-[#A398FF] font-medium">
+            <a href="/docs" className="px-4 py-2 text-sm rounded-xl bg-[#F4F3FF] text-[#A398FF] font-medium">
               Documentation
             </a>
-            <a href="#app" className="px-4 py-2 text-sm rounded-xl bg-[#998DFF] text-white font-medium">
+            <a href="/app" className="px-4 py-2 text-sm rounded-xl bg-[#998DFF] text-white font-medium">
               Launch App
             </a>
           </div>

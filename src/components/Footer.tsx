@@ -1,6 +1,6 @@
 const links = {
   Protocol: ["Overview", "Scoring Model", "Credentials", "API Reference"],
-  Ecosystem: ["Stellar", "Blend", "Blockroll", "Sava"],
+  Ecosystem: ["Stellar", "Blend", "Bitso", "Sava", "Fiatsend", "MoneyGram"],
   Developers: ["Documentation", "SDK", "GitHub", "Changelog"],
   Company: ["About", "Blog", "Careers", "Contact"],
 };
