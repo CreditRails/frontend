@@ -320,7 +320,7 @@ export default function DocsPage() {
             <div className="grid md:grid-cols-2 gap-4">
               {[
                 { title: "Portable", desc: "Score lives in a user-owned W3C Verifiable Credential, not locked in a database" },
-                { title: "Privacy-preserving", desc: "Lenders see the score + tier, never the underlying transactions" },
+                { title: "User-controlled", desc: "Credential lives in the user's wallet — they present it, revoke it, and own it" },
                 { title: "Real-time", desc: "Every confirmed Stellar ledger event can update the credit score in 4.2s" },
                 { title: "Verifiable", desc: "Any party can verify a credential without contacting CreditRails servers" },
               ].map((card) => (

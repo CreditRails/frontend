@@ -33,7 +33,7 @@ const features = [
     tag: "Credential",
     title: "W3C Verifiable Credentials",
     description:
-      "A signed credential tied to your wallet contains your score, risk tier, and eligibility — not raw data. Privacy-preserving by design. Lenders see the result, not your history.",
+      "A signed W3C Verifiable Credential is issued to your Stellar wallet DID. It contains your score, risk tier, and eligibility. You control it — present it to any lender, revoke it at any time.",
     highlight: "You own your credit identity.",
   },
   {

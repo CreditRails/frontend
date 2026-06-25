@@ -130,10 +130,10 @@ export default function Integrations() {
             style={{ background: "linear-gradient(135deg, #B27CEB 0%, #9544E4 100%)" }}
           >
             <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-              Privacy by design.
+              User-owned credentials.
             </h2>
             <p className="mt-4 max-w-[26rem] text-left text-base/6 text-white/80">
-              Lenders verify your score without ever seeing your transaction history. You own your credential.
+              Your W3C Verifiable Credential lives in your wallet — not in a database. Present it to any lender, on any app, without asking CreditRails.
             </p>
           </WobbleCard>
 
