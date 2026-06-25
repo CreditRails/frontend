@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { connectWallet as freighterConnect, getWalletAddress, shortenAddress } from "@/lib/wallet";
 
 const SCORE = 742;
 const MAX_SCORE = 850;
-const SCORE_PCT = Math.round((SCORE / MAX_SCORE) * 100);
 
 const navItems = [
   { id: "overview", label: "Overview", icon: SquaresIcon },
@@ -37,6 +37,30 @@ const credentials = [
   { id: "cred-3", type: "LoanEligibilityCredential", issuer: "Blend Finance", issued: "May 12, 2026", expires: "Nov 12, 2026", score: null, status: "Active" },
 ];
 
+const insights = [
+  {
+    title: "Maintain on-time payments",
+    desc: "30 consecutive on-time payments will push your payment history score above 98%.",
+    pts: "+15",
+    color: "#998DFF",
+  },
+  {
+    title: "Increase transaction volume",
+    desc: "Your volume score is at 82%. Adding 2–3 regular transactions per month closes the gap.",
+    pts: "+8",
+    color: "#7EC8E3",
+  },
+  {
+    title: "Diversify credit types",
+    desc: "Adding a savings signal via Sava would improve your diversity factor from 64% to ~76%.",
+    pts: "+12",
+    color: "#A8E6CF",
+  },
+];
+
+const scoreHistory = [680, 690, 695, 700, 708, 714, 718, 722, 728, 733, 738, 742];
+const scoreMonths = ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+
 function ScoreArc({ score }: { score: number }) {
   const pct = score / MAX_SCORE;
   const r = 80;
@@ -61,13 +85,9 @@ function ScoreArc({ score }: { score: number }) {
 
   return (
     <svg viewBox="0 0 220 180" className="w-full max-w-[220px]">
-      {/* Track */}
       <path d={arcPath(startAngle, startAngle + sweepAngle, r)} fill="none" stroke="#F0EEFF" strokeWidth="14" strokeLinecap="round" />
-      {/* Fill */}
       <path d={arcPath(startAngle, endAngle, r)} fill="none" stroke="#998DFF" strokeWidth="14" strokeLinecap="round" />
-      {/* Glow overlay */}
       <path d={arcPath(startAngle, endAngle, r)} fill="none" stroke="#C4BCFF" strokeWidth="6" strokeLinecap="round" opacity="0.5" />
-      {/* Score text */}
       <text x={cx} y={cy - 6} textAnchor="middle" fontSize="38" fontWeight="800" fill="#1a1a2e" fontFamily="var(--font-geist-sans)">{score}</text>
       <text x={cx} y={cy + 18} textAnchor="middle" fontSize="12" fill="#998DFF" fontFamily="var(--font-geist-sans)" fontWeight="600">/ {MAX_SCORE}</text>
       <text x={cx} y={cy + 38} textAnchor="middle" fontSize="11" fill="#9ca3af" fontFamily="var(--font-geist-sans)">CREDIT SCORE</text>
@@ -108,17 +128,57 @@ function ScoreBand({ score }: { score: number }) {
   );
 }
 
+function TrendBadge({ value }: { value: string }) {
+  const positive = value.startsWith("+");
+  return (
+    <span className={`inline-flex items-center gap-0.5 text-[10px] font-bold px-1.5 py-0.5 rounded-full ${positive ? "bg-green-50 text-green-600" : "bg-red-50 text-red-500"}`}>
+      {positive ? "▲" : "▼"} {value}
+    </span>
+  );
+}
+
 export default function DashboardPage() {
   const [activeNav, setActiveNav] = useState("overview");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [txFilter, setTxFilter] = useState("All");
+  const [walletAddress, setWalletAddress] = useState<string | null>(null);
+  const [walletError, setWalletError] = useState<string | null>(null);
+  const [connecting, setConnecting] = useState(false);
+
+  useEffect(() => {
+    getWalletAddress().then((addr) => { if (addr) setWalletAddress(addr); });
+  }, []);
+
+  async function handleConnectWallet() {
+    setWalletError(null);
+    setConnecting(true);
+    try {
+      const addr = await freighterConnect();
+      setWalletAddress(addr);
+    } catch (err) {
+      setWalletError(err instanceof Error ? err.message : "Failed to connect wallet");
+    } finally {
+      setConnecting(false);
+    }
+  }
+
+  function disconnectWallet() {
+    setWalletAddress(null);
+    setWalletError(null);
+  }
+
+  const shortAddress = walletAddress ? shortenAddress(walletAddress) : null;
+
+  const txTypes = ["All", "Payment", "Swap", "Loan Repay", "Deposit", "Missed Payment"];
+  const filteredTx = txFilter === "All" ? transactions : transactions.filter((t) => t.type === txFilter);
+
+  const milestoneTarget = 800;
+  const milestonePct = Math.min(((SCORE - 740) / (milestoneTarget - 740)) * 100, 100);
 
   return (
     <div className="flex h-screen bg-[#F6F7F4] overflow-hidden font-[var(--font-geist-sans)]">
       {/* Sidebar */}
-      <aside
-        className={`${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 fixed md:static z-40 h-full w-64 bg-white border-r border-gray-100 flex flex-col transition-transform duration-200`}
-      >
-        {/* Logo */}
+      <aside className={`${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 fixed md:static z-40 h-full w-64 bg-white border-r border-gray-100 flex flex-col transition-transform duration-200`}>
         <a href="/" className="flex items-center gap-2.5 px-6 h-16 border-b border-gray-100 hover:bg-gray-50 transition-colors">
           <span className="w-8 h-8 rounded-xl bg-[#998DFF] flex items-center justify-center shadow-sm shadow-[#998DFF]/40">
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
@@ -130,17 +190,32 @@ export default function DashboardPage() {
           <span className="font-semibold text-[15px] tracking-tight text-gray-900">CreditRails</span>
         </a>
 
-        {/* Wallet pill */}
-        <div className="mx-4 mt-5 mb-2 px-3 py-2.5 rounded-xl bg-[#F4F3FF] flex items-center gap-2">
-          <span className="w-7 h-7 rounded-full bg-[#998DFF] flex items-center justify-center text-white text-xs font-bold">A</span>
-          <div className="min-w-0">
-            <p className="text-[11px] text-gray-400">Connected wallet</p>
-            <p className="text-xs font-mono font-semibold text-gray-700 truncate">GBZX…4K9P</p>
-          </div>
-          <span className="ml-auto w-2 h-2 rounded-full bg-green-400 flex-shrink-0" />
+        <div className="mx-4 mt-5 mb-2">
+          {walletAddress ? (
+            <div className="px-3 py-2.5 rounded-xl bg-[#F4F3FF] flex items-center gap-2">
+              <span className="w-7 h-7 rounded-full bg-[#998DFF] flex items-center justify-center text-white text-xs font-bold">
+                {walletAddress[0]}
+              </span>
+              <div className="min-w-0">
+                <p className="text-[11px] text-gray-400">Connected wallet</p>
+                <p className="text-xs font-mono font-semibold text-gray-700 truncate">{shortAddress}</p>
+              </div>
+              <span className="ml-auto w-2 h-2 rounded-full bg-green-400 flex-shrink-0" />
+            </div>
+          ) : (
+            <button
+              onClick={handleConnectWallet}
+              disabled={connecting}
+              className="w-full px-3 py-2.5 rounded-xl bg-[#998DFF] text-white text-xs font-semibold hover:bg-[#8a7ef0] transition-colors disabled:opacity-60"
+            >
+              {connecting ? "Connecting…" : "Connect Freighter"}
+            </button>
+          )}
+          {walletError && (
+            <p className="mt-1.5 text-[10px] text-red-500 leading-tight px-1">{walletError}</p>
+          )}
         </div>
 
-        {/* Nav */}
         <nav className="flex-1 px-3 py-2 space-y-0.5">
           {navItems.map(({ id, label, icon: Icon }) => (
             <button
@@ -158,7 +233,6 @@ export default function DashboardPage() {
           ))}
         </nav>
 
-        {/* Bottom */}
         <div className="px-4 py-4 border-t border-gray-100">
           <div className="flex items-center gap-2 text-xs text-gray-400">
             <span className="w-1.5 h-1.5 rounded-full bg-[#998DFF] animate-pulse" />
@@ -167,7 +241,6 @@ export default function DashboardPage() {
         </div>
       </aside>
 
-      {/* Overlay for mobile */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-30 bg-black/20 md:hidden" onClick={() => setSidebarOpen(false)} />
       )}
@@ -177,10 +250,7 @@ export default function DashboardPage() {
         {/* Top bar */}
         <header className="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-5 md:px-8 flex-shrink-0">
           <div className="flex items-center gap-3">
-            <button
-              className="md:hidden p-1.5 rounded-lg text-gray-500 hover:bg-gray-100"
-              onClick={() => setSidebarOpen(true)}
-            >
+            <button className="md:hidden p-1.5 rounded-lg text-gray-500 hover:bg-gray-100" onClick={() => setSidebarOpen(true)}>
               <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M2 5h14M2 9h14M2 13h14"/></svg>
             </button>
             <div>
@@ -202,38 +272,37 @@ export default function DashboardPage() {
 
         {/* Content */}
         <main className="flex-1 overflow-y-auto p-5 md:p-8">
-          {/* Overview & Score tab */}
-          {(activeNav === "overview" || activeNav === "score") && (
+
+          {/* ── Overview tab ── */}
+          {activeNav === "overview" && (
             <div className="space-y-6">
-              {/* Top stat cards */}
+              {/* Stat cards */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 {[
-                  { label: "Credit Score", value: "742", sub: "Very Good", subColor: "#4ade80" },
-                  { label: "Percentile", value: "81st", sub: "Top 19% of users", subColor: "#998DFF" },
-                  { label: "Loan Eligibility", value: "$12,500", sub: "Max USDC credit", subColor: "#7EC8E3" },
-                  { label: "Active Credentials", value: "3", sub: "W3C DID verified", subColor: "#facc15" },
+                  { label: "Credit Score", value: "742", sub: "Very Good", subColor: "#4ade80", trend: "+28 this mo." },
+                  { label: "Percentile", value: "81st", sub: "Top 19% of users", subColor: "#998DFF", trend: "+4 this mo." },
+                  { label: "Loan Eligibility", value: "$12,500", sub: "Max USDC credit", subColor: "#7EC8E3", trend: null },
+                  { label: "Active Credentials", value: "3", sub: "W3C DID verified", subColor: "#facc15", trend: null },
                 ].map((card) => (
                   <div key={card.label} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
                     <p className="text-xs text-gray-400 font-medium mb-1">{card.label}</p>
                     <p className="text-2xl font-bold text-gray-900">{card.value}</p>
-                    <p className="text-xs font-medium mt-1" style={{ color: card.subColor }}>{card.sub}</p>
+                    <div className="flex items-center gap-2 mt-1 flex-wrap">
+                      <p className="text-xs font-medium" style={{ color: card.subColor }}>{card.sub}</p>
+                      {card.trend && <TrendBadge value={`+${card.trend.split("+")[1]}`} />}
+                    </div>
                   </div>
                 ))}
               </div>
 
-              {/* Score + factors */}
+              {/* Score arc + factors */}
               <div className="grid md:grid-cols-5 gap-4">
-                {/* Arc meter */}
                 <div className="md:col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col items-center">
                   <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Score Overview</p>
                   <ScoreArc score={SCORE} />
                   <ScoreBand score={SCORE} />
                   <div className="mt-4 w-full grid grid-cols-3 gap-2 text-center">
-                    {[
-                      { label: "Low", val: "300" },
-                      { label: "Target", val: "800" },
-                      { label: "High", val: "850" },
-                    ].map((s) => (
+                    {[{ label: "Low", val: "300" }, { label: "Target", val: "800" }, { label: "High", val: "850" }].map((s) => (
                       <div key={s.label}>
                         <p className="text-[11px] text-gray-400">{s.label}</p>
                         <p className="text-xs font-bold text-gray-600">{s.val}</p>
@@ -242,7 +311,6 @@ export default function DashboardPage() {
                   </div>
                 </div>
 
-                {/* Score factors */}
                 <div className="md:col-span-3 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                   <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Score Factors</p>
                   <div className="space-y-4">
@@ -256,10 +324,7 @@ export default function DashboardPage() {
                           </div>
                         </div>
                         <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                          <div
-                            className="h-full rounded-full transition-all duration-700"
-                            style={{ width: `${f.value}%`, background: f.color }}
-                          />
+                          <div className="h-full rounded-full transition-all duration-700" style={{ width: `${f.value}%`, background: f.color }} />
                         </div>
                       </div>
                     ))}
@@ -267,83 +332,205 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* Score history mini chart */}
+              {/* Next milestone */}
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Next Milestone</p>
+                  <span className="text-xs font-bold text-[#998DFF]">{milestoneTarget - SCORE} pts away</span>
+                </div>
+                <div className="flex items-center justify-between text-sm mb-2">
+                  <span className="font-medium text-gray-700">Very Good → <span className="text-[#22c55e] font-semibold">Excellent</span></span>
+                  <span className="text-xs text-gray-400">{SCORE} / {milestoneTarget}</span>
+                </div>
+                <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                  <div className="h-full rounded-full bg-gradient-to-r from-[#998DFF] to-[#22c55e] transition-all duration-700" style={{ width: `${milestonePct}%` }} />
+                </div>
+                <p className="text-[11px] text-gray-400 mt-2">Reach 800 to unlock Excellent tier and access premium loan rates.</p>
+              </div>
+
+              {/* Insights */}
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Score Insights</p>
+                <div className="space-y-3">
+                  {insights.map((insight) => (
+                    <div key={insight.title} className="flex items-start gap-3 p-4 rounded-xl bg-[#F6F7F4] hover:bg-[#F0EEFF] transition-colors">
+                      <div className="w-2 h-2 rounded-full mt-1.5 flex-shrink-0" style={{ background: insight.color }} />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-gray-800">{insight.title}</p>
+                        <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">{insight.desc}</p>
+                      </div>
+                      <span className="text-xs font-bold text-green-500 bg-green-50 px-2 py-0.5 rounded-full whitespace-nowrap flex-shrink-0">{insight.pts} pts</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── Score tab ── */}
+          {activeNav === "score" && (
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[
+                  { label: "Credit Score", value: "742", sub: "Very Good", subColor: "#4ade80" },
+                  { label: "Percentile", value: "81st", sub: "Top 19% globally", subColor: "#998DFF" },
+                  { label: "Score Change", value: "+28", sub: "Last 30 days", subColor: "#7EC8E3" },
+                  { label: "Risk Tier", value: "B", sub: "Moderate-Low risk", subColor: "#facc15" },
+                ].map((card) => (
+                  <div key={card.label} className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
+                    <p className="text-xs text-gray-400 font-medium mb-1">{card.label}</p>
+                    <p className="text-2xl font-bold text-gray-900">{card.value}</p>
+                    <p className="text-xs font-medium mt-1" style={{ color: card.subColor }}>{card.sub}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Score arc + band breakdown */}
+              <div className="grid md:grid-cols-5 gap-4">
+                <div className="md:col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col items-center">
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Score Gauge</p>
+                  <ScoreArc score={SCORE} />
+                  <ScoreBand score={SCORE} />
+                  <div className="mt-5 w-full space-y-1.5">
+                    {[
+                      { label: "Poor", range: "300–579", color: "#f87171" },
+                      { label: "Fair", range: "580–669", color: "#fb923c" },
+                      { label: "Good", range: "670–739", color: "#facc15" },
+                      { label: "Very Good", range: "740–799", color: "#4ade80", active: true },
+                      { label: "Excellent", range: "800–850", color: "#22c55e" },
+                    ].map((b) => (
+                      <div key={b.label} className={`flex items-center justify-between px-3 py-1.5 rounded-lg text-xs ${b.active ? "bg-[#F4F3FF] font-semibold" : ""}`}>
+                        <div className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full" style={{ background: b.color }} />
+                          <span className="text-gray-700">{b.label}</span>
+                        </div>
+                        <span className="text-gray-400 font-mono">{b.range}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="md:col-span-3 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Factor Breakdown</p>
+                  <div className="space-y-5">
+                    {scoreFactors.map((f) => (
+                      <div key={f.label}>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <span className="text-sm font-medium text-gray-700">{f.label}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[11px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">{f.weight} weight</span>
+                            <span className="text-sm font-bold text-gray-900">{f.value}%</span>
+                          </div>
+                        </div>
+                        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="h-full rounded-full transition-all duration-700" style={{ width: `${f.value}%`, background: f.color }} />
+                        </div>
+                        <p className="text-[11px] text-gray-400 mt-1">
+                          {f.value >= 90 ? "Excellent — keep it up" : f.value >= 75 ? "Good — small improvements possible" : "Fair — focus here to gain the most points"}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Score history */}
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Score History</p>
-                  <span className="text-xs text-green-500 font-semibold">+28 pts this month</span>
+                  <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">12-Month History</p>
+                  <span className="text-xs text-green-500 font-semibold bg-green-50 px-2 py-0.5 rounded-full">+62 pts this year</span>
                 </div>
-                <div className="flex items-end gap-1 h-20">
-                  {[680, 690, 695, 700, 708, 714, 718, 722, 728, 733, 738, 742].map((val, i) => (
-                    <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                <div className="flex items-end gap-1 h-24">
+                  {scoreHistory.map((val, i) => (
+                    <div key={i} className="flex-1 flex flex-col items-center gap-1 group relative">
                       <div
                         className="w-full rounded-t-sm transition-all"
                         style={{
                           height: `${((val - 650) / 200) * 100}%`,
-                          background: i === 11 ? "#998DFF" : "#E8E4FF",
+                          background: i === scoreHistory.length - 1 ? "#998DFF" : "#E8E4FF",
                         }}
                       />
+                      <div className="absolute -top-7 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-[9px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                        {val}
+                      </div>
                     </div>
                   ))}
                 </div>
-                <div className="flex justify-between mt-2 text-[10px] text-gray-400">
-                  <span>Jun 2025</span>
-                  <span>Jun 2026</span>
+                <div className="flex justify-between mt-2">
+                  {scoreMonths.map((m, i) => (
+                    <span key={i} className="flex-1 text-center text-[9px] text-gray-400">{m}</span>
+                  ))}
                 </div>
               </div>
             </div>
           )}
 
-          {/* Transactions tab */}
+          {/* ── Transactions tab ── */}
           {activeNav === "transactions" && (
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-              <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Recent Transactions</p>
-                <span className="text-xs text-gray-400">{transactions.length} records</span>
+            <div className="space-y-4">
+              {/* Filter bar */}
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-xs font-semibold text-gray-400 mr-1">Filter:</span>
+                {txTypes.map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => setTxFilter(type)}
+                    className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
+                      txFilter === type
+                        ? "bg-[#998DFF] text-white"
+                        : "bg-white border border-gray-200 text-gray-500 hover:border-[#998DFF] hover:text-[#998DFF]"
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+                <span className="ml-auto text-xs text-gray-400">{filteredTx.length} record{filteredTx.length !== 1 ? "s" : ""}</span>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-gray-100">
-                      {["Tx Hash", "Type", "Amount", "Date", "Status", "Score Impact"].map((h) => (
-                        <th key={h} className="px-5 py-3 text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
-                          {h}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {transactions.map((tx) => (
-                      <tr key={tx.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                        <td className="px-5 py-3.5 font-mono text-xs text-gray-600">{tx.hash}</td>
-                        <td className="px-5 py-3.5 text-gray-700 font-medium">{tx.type}</td>
-                        <td className="px-5 py-3.5 text-gray-600">{tx.amount}</td>
-                        <td className="px-5 py-3.5 text-gray-400 text-xs">{tx.date}</td>
-                        <td className="px-5 py-3.5">
-                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${
-                            tx.status === "Confirmed"
-                              ? "bg-green-50 text-green-600"
-                              : "bg-red-50 text-red-500"
-                          }`}>
-                            {tx.status}
-                          </span>
-                        </td>
-                        <td className="px-5 py-3.5">
-                          <span className={`text-sm font-bold ${
-                            tx.score_impact.startsWith("+") ? "text-green-500" : "text-red-400"
-                          }`}>
-                            {tx.score_impact}
-                          </span>
-                        </td>
+
+              <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-gray-100">
+                        {["Tx Hash", "Type", "Amount", "Date", "Status", "Score Impact"].map((h) => (
+                          <th key={h} className="px-5 py-3 text-left text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
+                            {h}
+                          </th>
+                        ))}
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {filteredTx.map((tx) => (
+                        <tr key={tx.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                          <td className="px-5 py-3.5 font-mono text-xs text-gray-600">{tx.hash}</td>
+                          <td className="px-5 py-3.5 text-gray-700 font-medium">{tx.type}</td>
+                          <td className="px-5 py-3.5 text-gray-600">{tx.amount}</td>
+                          <td className="px-5 py-3.5 text-gray-400 text-xs">{tx.date}</td>
+                          <td className="px-5 py-3.5">
+                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold ${
+                              tx.status === "Confirmed" ? "bg-green-50 text-green-600" : "bg-red-50 text-red-500"
+                            }`}>
+                              {tx.status}
+                            </span>
+                          </td>
+                          <td className="px-5 py-3.5">
+                            <span className={`text-sm font-bold ${tx.score_impact.startsWith("+") ? "text-green-500" : "text-red-400"}`}>
+                              {tx.score_impact}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  {filteredTx.length === 0 && (
+                    <div className="text-center py-12 text-gray-400 text-sm">No transactions match this filter.</div>
+                  )}
+                </div>
               </div>
             </div>
           )}
 
-          {/* Credentials tab */}
+          {/* ── Credentials tab ── */}
           {activeNav === "credentials" && (
             <div className="space-y-4">
               <div className="flex items-center justify-between mb-2">
@@ -356,7 +543,7 @@ export default function DashboardPage() {
                 <div key={cred.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-[#F4F3FF] flex items-center justify-center flex-shrink-0">
+                      <div className="w-10 h-10 rounded-xl bg-[#F4F3FF] flex items-center justify-center flex-shrink-0 text-[#998DFF]">
                         <BadgeIcon />
                       </div>
                       <div>
@@ -385,19 +572,35 @@ export default function DashboardPage() {
             </div>
           )}
 
-          {/* Settings tab */}
+          {/* ── Settings tab ── */}
           {activeNav === "settings" && (
             <div className="space-y-4 max-w-xl">
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Wallet</p>
-                <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-50">
-                  <span className="w-9 h-9 rounded-full bg-[#998DFF] flex items-center justify-center text-white text-sm font-bold">A</span>
-                  <div>
-                    <p className="text-sm font-semibold text-gray-900">GBZXFMN7AJ4K9PQRST…</p>
-                    <p className="text-xs text-gray-400">Stellar Testnet</p>
+                {walletAddress ? (
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-gray-50">
+                    <span className="w-9 h-9 rounded-full bg-[#998DFF] flex items-center justify-center text-white text-sm font-bold">
+                      {walletAddress[0]}
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-gray-900 font-mono truncate">{walletAddress.slice(0, 12)}…{walletAddress.slice(-6)}</p>
+                      <p className="text-xs text-gray-400">Stellar Testnet · Freighter</p>
+                    </div>
+                    <button onClick={disconnectWallet} className="ml-auto text-xs text-red-400 hover:text-red-600 font-medium flex-shrink-0">Disconnect</button>
                   </div>
-                  <button className="ml-auto text-xs text-[#998DFF] font-medium hover:underline">Disconnect</button>
-                </div>
+                ) : (
+                  <div className="flex flex-col gap-3">
+                    <p className="text-sm text-gray-500">No wallet connected.</p>
+                    <button
+                      onClick={handleConnectWallet}
+                      disabled={connecting}
+                      className="self-start px-4 py-2 rounded-xl bg-[#998DFF] text-white text-xs font-semibold hover:bg-[#8a7ef0] transition-colors disabled:opacity-60"
+                    >
+                      {connecting ? "Connecting…" : "Connect Freighter"}
+                    </button>
+                    {walletError && <p className="text-xs text-red-500">{walletError}</p>}
+                  </div>
+                )}
               </div>
               <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Notifications</p>

@@ -15,10 +15,19 @@ export default function Hero() {
         }}
       />
 
-      {/* Pill badge */}
+      {/* Waitlist badge */}
       <div className="relative mb-6 flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#D7D2FF] bg-white/60 backdrop-blur-sm">
-        <span className="w-2 h-2 rounded-full bg-[#998DFF] animate-pulse" />
-        <span className="text-xs font-medium text-[#998DFF]">Now live on Stellar Testnet</span>
+        <span className="flex -space-x-1.5">
+          {[15, 22, 33, 47].map((n) => (
+            <img
+              key={n}
+              src={`https://i.pravatar.cc/40?img=${n}`}
+              alt="member"
+              className="w-5 h-5 rounded-full border-2 border-white object-cover"
+            />
+          ))}
+        </span>
+        <span className="text-xs font-semibold text-[#7a6ee0]">1,000+ on the waitlist</span>
       </div>
 
       {/* Headline */}
@@ -75,7 +84,7 @@ export default function Hero() {
       </div>
 
       {/* Stats row */}
-      <div className="relative mt-14 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-px rounded-2xl md:rounded-3xl overflow-hidden border border-gray-100 bg-gray-100 w-full max-w-3xl shadow-sm">
+      <div className="relative mt-10 md:mt-14 grid grid-cols-2 md:grid-cols-4 gap-px rounded-2xl md:rounded-3xl overflow-hidden border border-gray-100 bg-gray-100 w-full max-w-3xl shadow-sm">
         {[
           { value: "10M+", label: "Transactions Indexed" },
           { value: "4.2s", label: "Avg Score Update" },
