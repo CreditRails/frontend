@@ -40,23 +40,9 @@ export default function Hero() {
         </span>
         <span className="block mt-3 text-4xl md:text-6xl lg:text-7xl font-light text-gray-900 tracking-wide">
           for the{" "}
-          <span className="relative inline-block text-[#998DFF] font-black tracking-tight">
+          <span className="relative inline-block text-[#998DFF] font-black tracking-tight group cursor-default">
             Open Economy
-            <svg
-              className="absolute -bottom-2 left-0 w-full"
-              viewBox="0 0 300 10"
-              fill="none"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <path
-                d="M4 6 Q 75 2, 150 6 Q 225 10, 296 5"
-                stroke="#998DFF"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                fill="none"
-              />
-            </svg>
+            <span className="absolute left-0 -bottom-1 h-[6px] w-0 group-hover:w-full bg-[#998DFF]/30 rounded-full transition-all duration-300" />
           </span>
         </span>
       </h1>

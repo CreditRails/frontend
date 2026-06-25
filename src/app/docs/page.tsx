@@ -120,7 +120,7 @@ function CodeBlock({ code }: { code: string }) {
       </pre>
       <button
         onClick={() => { navigator.clipboard.writeText(code); setCopied(true); setTimeout(() => setCopied(false), 1500); }}
-        className="absolute top-2 right-2 px-2 py-1 rounded-md bg-gray-200 text-gray-500 text-[10px] hover:bg-gray-300 transition-colors"
+        className="absolute top-2 right-2 px-2 py-1 rounded-md bg-gray-200 text-gray-700 text-[10px] hover:bg-gray-300 transition-colors"
       >
         {copied ? "Copied!" : "Copy"}
       </button>
@@ -174,7 +174,7 @@ function MultiCodeBlock({ examples }: { examples: Record<string, string> }) {
             key={lang}
             onClick={() => setActive(lang)}
             className={`px-3 py-1 rounded-md text-xs font-semibold transition-colors ${
-              active === lang ? "bg-[#998DFF] text-white" : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+              active === lang ? "bg-[#998DFF] text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
             }`}
           >
             {lang}
@@ -189,7 +189,7 @@ function MultiCodeBlock({ examples }: { examples: Record<string, string> }) {
 function ParamsTable({ params }: { params: typeof endpoints[0]["params"] }) {
   return (
     <div className="rounded-xl border border-gray-100 overflow-hidden text-xs">
-      <div className="grid grid-cols-[100px_60px_60px_1fr] bg-gray-50 border-b border-gray-100 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-400">
+      <div className="grid grid-cols-[100px_60px_60px_1fr] bg-gray-50 border-b border-gray-100 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-gray-600">
         <span>Name</span>
         <span>In</span>
         <span>Type</span>
@@ -198,9 +198,9 @@ function ParamsTable({ params }: { params: typeof endpoints[0]["params"] }) {
       {params.map((p) => (
         <div key={p.name} className="grid grid-cols-[100px_60px_60px_1fr] px-4 py-2.5 border-b border-gray-50 last:border-0 items-start">
           <span className="font-mono text-[#998DFF] font-semibold">{p.name}{p.required && <span className="text-red-400">*</span>}</span>
-          <span className="text-gray-400">{p.in}</span>
-          <span className="text-gray-400">{p.type}</span>
-          <span className="text-gray-500">{p.desc}</span>
+          <span className="text-gray-600">{p.in}</span>
+          <span className="text-gray-600">{p.type}</span>
+          <span className="text-gray-700">{p.desc}</span>
         </div>
       ))}
     </div>
@@ -231,30 +231,35 @@ export default function DocsPage() {
       {/* Sidebar */}
       <aside className={`${mobileNavOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 fixed md:static z-40 h-full md:h-auto flex flex-col w-56 shrink-0 border-r border-gray-100 pt-8 pb-8 md:sticky md:top-0 md:h-screen bg-white transition-transform duration-200`}>
         <a href="/" className="flex items-center gap-2 px-6 mb-6">
-          <span className="w-7 h-7 rounded-lg bg-[#998DFF] flex items-center justify-center shadow-sm shadow-[#998DFF]/40">
-            <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
-              <path d="M4 15L9 3L14 15" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M6 11h6" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
-              <path d="M4.8 14h8.4" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
+          <span
+            className="w-8 h-8 rounded-xl flex items-center justify-center shadow-lg shadow-[#998DFF]/30 flex-shrink-0"
+            style={{ background: "linear-gradient(150deg, #c4bcff 0%, #998DFF 45%, #6148d0 100%)" }}
+          >
+            <svg width="18" height="18" viewBox="0 0 32 32" fill="none">
+              <path d="M8 29L13.5 4" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>
+              <path d="M24 29L18.5 4" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>
+              <path d="M9.5 25L22.5 25" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+              <path d="M12 16.5L20 16.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" opacity="0.8"/>
+              <path d="M14 9L18 9" stroke="white" strokeWidth="1.8" strokeLinecap="round" opacity="0.55"/>
             </svg>
           </span>
-          <span className="font-semibold text-sm text-gray-900">CreditRails</span>
+          <span className="font-extrabold text-sm text-gray-900">CreditRails</span>
         </a>
 
         {/* Search */}
         <div className="px-4 mb-4">
           <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 border border-gray-200">
-            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-400 flex-shrink-0"><circle cx="5" cy="5" r="4"/><path d="M9 9l2.5 2.5" strokeLinecap="round"/></svg>
+            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2" className="text-gray-600 flex-shrink-0"><circle cx="5" cy="5" r="4"/><path d="M9 9l2.5 2.5" strokeLinecap="round"/></svg>
             <input
               placeholder="Search docs..."
-              className="bg-transparent text-xs text-gray-500 placeholder-gray-400 outline-none flex-1 w-full"
+              className="bg-transparent text-xs text-gray-700 placeholder-gray-400 outline-none flex-1 w-full"
               readOnly
             />
             <kbd className="text-[9px] text-gray-300 border border-gray-200 rounded px-1">⌘K</kbd>
           </div>
         </div>
 
-        <p className="px-6 text-[10px] font-semibold uppercase tracking-widest text-gray-400 mb-2">Docs</p>
+        <p className="px-6 text-[10px] font-semibold uppercase tracking-widest text-gray-600 mb-2">Docs</p>
         <nav className="px-3 space-y-0.5 flex-1">
           {sections.map((s) => (
             <button
@@ -263,7 +268,7 @@ export default function DocsPage() {
               className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-colors ${
                 active === s.id
                   ? "bg-[#F4F3FF] text-[#998DFF] font-medium"
-                  : "text-gray-500 hover:text-gray-800 hover:bg-gray-50"
+                  : "text-gray-700 hover:text-gray-800 hover:bg-gray-50"
               }`}
             >
               {s.label}
@@ -292,7 +297,7 @@ export default function DocsPage() {
         <div className="flex items-center gap-3 mb-6 md:hidden">
           <button
             onClick={() => setMobileNavOpen(true)}
-            className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50"
+            className="p-2 rounded-lg border border-gray-200 text-gray-700 hover:bg-gray-50"
           >
             <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M2 4h12M2 8h12M2 12h12"/></svg>
           </button>
@@ -307,7 +312,7 @@ export default function DocsPage() {
             <div>
               <span className="text-xs font-semibold uppercase tracking-widest text-[#998DFF]">Documentation</span>
               <h1 className="mt-2 text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">What is CreditRails?</h1>
-              <p className="mt-4 text-gray-500 text-base leading-relaxed">
+              <p className="mt-4 text-gray-700 text-base leading-relaxed">
                 CreditRails reads on-chain Stellar financial activity and converts it into a verifiable credit profile — one users carry across every application, without exposing raw transaction history.
               </p>
             </div>
@@ -321,7 +326,7 @@ export default function DocsPage() {
               ].map((card) => (
                 <div key={card.title} className="p-5 rounded-2xl border border-gray-100 bg-[#F6F7F4]">
                   <p className="font-semibold text-gray-900 text-sm">{card.title}</p>
-                  <p className="mt-1 text-xs text-gray-500 leading-relaxed">{card.desc}</p>
+                  <p className="mt-1 text-xs text-gray-700 leading-relaxed">{card.desc}</p>
                 </div>
               ))}
             </div>
@@ -342,7 +347,7 @@ export default function DocsPage() {
           <div className="space-y-8">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 tracking-tight">How It Works</h1>
-              <p className="mt-3 text-gray-500">Five steps from wallet to verified credit credential.</p>
+              <p className="mt-3 text-gray-700">Five steps from wallet to verified credit credential.</p>
             </div>
             <div className="space-y-4">
               {[
@@ -356,7 +361,7 @@ export default function DocsPage() {
                   <span className="text-2xl font-black text-[#E8E4FF] font-mono leading-none mt-0.5 flex-shrink-0">{step.n}</span>
                   <div>
                     <p className="font-semibold text-gray-900 text-sm">{step.title}</p>
-                    <p className="mt-1 text-xs text-gray-500 leading-relaxed">{step.desc}</p>
+                    <p className="mt-1 text-xs text-gray-700 leading-relaxed">{step.desc}</p>
                   </div>
                 </div>
               ))}
@@ -379,7 +384,7 @@ export default function DocsPage() {
                       <div className="h-full bg-[#998DFF] rounded-full" style={{ width: `${row.weight * 2.5}%` }} />
                     </div>
                     <span className="text-xs font-bold text-[#998DFF] w-8 text-right">{row.weight}%</span>
-                    <span className="text-xs text-gray-400 hidden md:block flex-1">{row.desc}</span>
+                    <span className="text-xs text-gray-600 hidden md:block flex-1">{row.desc}</span>
                   </div>
                 ))}
               </div>
@@ -392,14 +397,14 @@ export default function DocsPage() {
           <div className="space-y-8">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Authentication</h1>
-              <p className="mt-3 text-gray-500 text-sm leading-relaxed">
+              <p className="mt-3 text-gray-700 text-sm leading-relaxed">
                 CreditRails uses API keys for all requests. Keys are scoped to your project and can be rotated at any time from the dashboard.
               </p>
             </div>
 
             <div>
               <h2 className="text-base font-bold text-gray-900 mb-3">Using your API key</h2>
-              <p className="text-sm text-gray-500 mb-3">Pass the key as a Bearer token in the <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">Authorization</code> header on every request.</p>
+              <p className="text-sm text-gray-700 mb-3">Pass the key as a Bearer token in the <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">Authorization</code> header on every request.</p>
               <CodeBlock code={`Authorization: Bearer sk_live_EXAMPLE_KEY_REDACTED`} />
             </div>
 
@@ -418,7 +423,7 @@ export default function DocsPage() {
                     <code className="text-xs font-mono text-[#998DFF] bg-[#F4F3FF] px-2 py-1 rounded whitespace-nowrap">{k.prefix}…</code>
                     <div>
                       <p className="text-sm font-semibold text-gray-900">{k.label}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{k.desc}</p>
+                      <p className="text-xs text-gray-600 mt-0.5">{k.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -432,7 +437,7 @@ export default function DocsPage() {
                   {[["Free", "10 req/min", "$0"], ["Developer", "100 req/min", "$49/mo"], ["Enterprise", "Unlimited", "Custom"]].map(([plan, rate, price]) => (
                     <div key={plan} className="bg-white rounded-xl p-3">
                       <p className="font-bold text-gray-900">{plan}</p>
-                      <p className="text-gray-400 mt-0.5">{rate}</p>
+                      <p className="text-gray-600 mt-0.5">{rate}</p>
                       <p className="text-[#998DFF] font-semibold mt-0.5">{price}</p>
                     </div>
                   ))}
@@ -448,8 +453,8 @@ export default function DocsPage() {
           <div className="space-y-8">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 tracking-tight">API Reference</h1>
-              <p className="mt-2 text-gray-500 text-sm">Base URL: <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">https://api.creditrails.xyz/v1</code></p>
-              <p className="mt-1 text-gray-500 text-sm">Auth: <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">Authorization: Bearer &lt;api_key&gt;</code></p>
+              <p className="mt-2 text-gray-700 text-sm">Base URL: <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">https://api.creditrails.xyz/v1</code></p>
+              <p className="mt-1 text-gray-700 text-sm">Auth: <code className="bg-gray-100 px-1.5 py-0.5 rounded text-xs font-mono">Authorization: Bearer &lt;api_key&gt;</code></p>
             </div>
 
             {endpoints.map((ep) => (
@@ -461,16 +466,16 @@ export default function DocsPage() {
                   <code className="text-sm font-mono font-semibold text-gray-800">{ep.path}</code>
                 </div>
                 <div className="p-5 space-y-4">
-                  <p className="text-sm text-gray-500">{ep.desc}</p>
+                  <p className="text-sm text-gray-700">{ep.desc}</p>
 
                   <div>
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Parameters</p>
+                    <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">Parameters</p>
                     <ParamsTable params={ep.params} />
-                    <p className="text-[10px] text-gray-400 mt-1"><span className="text-red-400">*</span> required</p>
+                    <p className="text-[10px] text-gray-600 mt-1"><span className="text-red-400">*</span> required</p>
                   </div>
 
                   <div>
-                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Response</p>
+                    <p className="text-xs font-semibold text-gray-600 uppercase tracking-wider mb-2">Response</p>
                     <CodeBlock code={ep.response} />
                   </div>
                 </div>
@@ -484,7 +489,7 @@ export default function DocsPage() {
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Error Codes</h1>
-              <p className="mt-3 text-gray-500 text-sm leading-relaxed">
+              <p className="mt-3 text-gray-700 text-sm leading-relaxed">
                 All errors return a JSON body with a <code className="bg-gray-100 px-1 rounded text-xs font-mono">code</code> and <code className="bg-gray-100 px-1 rounded text-xs font-mono">message</code> field.
               </p>
             </div>
@@ -499,7 +504,7 @@ export default function DocsPage() {
 }`} />
 
             <div className="rounded-2xl border border-gray-100 overflow-hidden">
-              <div className="grid grid-cols-[64px_180px_1fr] bg-gray-50 border-b border-gray-100 px-5 py-2.5 text-[10px] font-bold uppercase tracking-wider text-gray-400">
+              <div className="grid grid-cols-[64px_180px_1fr] bg-gray-50 border-b border-gray-100 px-5 py-2.5 text-[10px] font-bold uppercase tracking-wider text-gray-600">
                 <span>Status</span>
                 <span>Code</span>
                 <span>Description</span>
@@ -508,7 +513,7 @@ export default function DocsPage() {
                 <div key={e.code} className="grid grid-cols-[64px_180px_1fr] px-5 py-3.5 border-b border-gray-50 last:border-0 items-start text-sm">
                   <span className={`font-bold font-mono text-xs ${e.code < 500 ? "text-amber-500" : "text-red-500"}`}>{e.code}</span>
                   <code className="text-xs font-mono text-[#998DFF]">{e.name}</code>
-                  <span className="text-xs text-gray-500">{e.desc}</span>
+                  <span className="text-xs text-gray-700">{e.desc}</span>
                 </div>
               ))}
             </div>
@@ -524,7 +529,7 @@ export default function DocsPage() {
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Integrations</h1>
-              <p className="mt-3 text-gray-500 text-sm leading-relaxed">
+              <p className="mt-3 text-gray-700 text-sm leading-relaxed">
                 CreditRails ingests financial signals from Stellar-native apps. Each integration adds a weighted signal to the scoring model.
               </p>
             </div>
@@ -535,10 +540,10 @@ export default function DocsPage() {
                     <div className="flex items-center gap-2">
                       <p className="font-semibold text-gray-900 text-sm">{i.name}</p>
                       <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                        i.status === "Live" ? "bg-green-50 text-green-600" : "bg-gray-100 text-gray-400"
+                        i.status === "Live" ? "bg-green-50 text-green-600" : "bg-gray-100 text-gray-600"
                       }`}>{i.status}</span>
                     </div>
-                    <p className="mt-1 text-xs text-gray-500">{i.desc}</p>
+                    <p className="mt-1 text-xs text-gray-700">{i.desc}</p>
                   </div>
                 </div>
               ))}
@@ -546,7 +551,7 @@ export default function DocsPage() {
 
             <div>
               <h2 className="text-base font-bold text-gray-900 mb-3">Submit a custom signal</h2>
-              <p className="text-xs text-gray-500 mb-3">Any app can push financial events to CreditRails for inclusion in the scoring model.</p>
+              <p className="text-xs text-gray-700 mb-3">Any app can push financial events to CreditRails for inclusion in the scoring model.</p>
               <CodeBlock code={`import { CreditRailsSDK } from '@creditrails/sdk';
 
 const cr = new CreditRailsSDK({ apiKey: 'sk_live_...' });
@@ -572,7 +577,7 @@ await cr.signals.submit({
                 ].map((s) => (
                   <div key={s.type} className="flex items-center gap-4 px-4 py-3 border-b border-gray-50 last:border-0">
                     <code className="text-[#998DFF] font-mono font-semibold w-44">{s.type}</code>
-                    <span className="text-gray-500">{s.desc}</span>
+                    <span className="text-gray-700">{s.desc}</span>
                   </div>
                 ))}
               </div>
@@ -585,7 +590,7 @@ await cr.signals.submit({
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 tracking-tight">DID Credentials</h1>
-              <p className="mt-3 text-gray-500 text-sm leading-relaxed">
+              <p className="mt-3 text-gray-700 text-sm leading-relaxed">
                 CreditRails issues W3C Verifiable Credentials (VCs) tied to Stellar wallet DIDs. Users own and control their credentials.
               </p>
             </div>
@@ -624,8 +629,8 @@ await cr.signals.submit({
                 ].map((c) => (
                   <div key={c.type} className="p-4 rounded-xl border border-gray-100">
                     <p className="text-sm font-semibold text-gray-900">{c.type}</p>
-                    <p className="text-xs text-gray-400 mt-0.5">Issued by <span className="text-[#998DFF] font-medium">{c.issuer}</span></p>
-                    <p className="text-xs text-gray-500 mt-1">{c.desc}</p>
+                    <p className="text-xs text-gray-600 mt-0.5">Issued by <span className="text-[#998DFF] font-medium">{c.issuer}</span></p>
+                    <p className="text-xs text-gray-700 mt-1">{c.desc}</p>
                   </div>
                 ))}
               </div>
@@ -651,15 +656,15 @@ await cr.signals.submit({
               ].map((p) => (
                 <div key={p.phase} className={`p-5 rounded-2xl border ${p.status === "done" ? "border-green-200 bg-green-50" : p.status === "active" ? "border-[#D7D2FF] bg-[#F4F3FF]" : "border-gray-100"}`}>
                   <div className="flex items-center gap-2 mb-2">
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${p.status === "done" ? "bg-green-200 text-green-800" : p.status === "active" ? "bg-[#998DFF] text-white" : "bg-gray-100 text-gray-400"}`}>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${p.status === "done" ? "bg-green-200 text-green-800" : p.status === "active" ? "bg-[#998DFF] text-white" : "bg-gray-100 text-gray-600"}`}>
                       {p.status === "done" ? "Complete" : p.status === "active" ? "In Progress" : "Planned"}
                     </span>
-                    <span className="text-[11px] text-gray-400 font-mono">{p.phase}</span>
+                    <span className="text-[11px] text-gray-600 font-mono">{p.phase}</span>
                   </div>
                   <p className="font-semibold text-gray-900 text-sm mb-2">{p.title}</p>
                   <ul className="space-y-1">
                     {p.items.map((item) => (
-                      <li key={item} className="text-xs text-gray-500 flex items-center gap-1.5">
+                      <li key={item} className="text-xs text-gray-700 flex items-center gap-1.5">
                         <span className={p.status === "done" ? "text-green-500" : p.status === "active" ? "text-[#998DFF]" : "text-gray-300"}>
                           {p.status === "done" ? "✓" : p.status === "active" ? "◆" : "○"}
                         </span>

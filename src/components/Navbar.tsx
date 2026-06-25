@@ -4,9 +4,8 @@ import { useState } from "react";
 
 const navLinks = [
   { label: "Protocol", href: "#protocol" },
-  { label: "Developers", href: "#developers" },
+  { label: "Docs", href: "/docs" },
   { label: "Integrations", href: "#integrations" },
-  { label: "Governance", href: "#governance" },
 ];
 
 export default function Navbar() {
@@ -15,17 +14,27 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-16 bg-white/80 backdrop-blur-md border-b border-gray-100">
       {/* Logo */}
-      <a href="/" className="flex items-center gap-2">
-        <span className="w-8 h-8 rounded-xl bg-[#998DFF] flex items-center justify-center shadow-sm shadow-[#998DFF]/40">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            {/* Two rails converging upward */}
-            <path d="M4 15L9 3L14 15" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-            {/* Cross ties */}
-            <path d="M6 11h6" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
-            <path d="M4.8 14h8.4" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
+      <a href="/" className="flex items-center gap-3 group">
+        <span
+          className="w-11 h-11 rounded-2xl flex items-center justify-center shadow-xl shadow-[#998DFF]/30 transition-all duration-200 group-hover:shadow-[#998DFF]/50 group-hover:scale-105 flex-shrink-0"
+          style={{ background: "linear-gradient(150deg, #c4bcff 0%, #998DFF 45%, #6148d0 100%)" }}
+        >
+          <svg width="26" height="26" viewBox="0 0 32 32" fill="none">
+            {/* Left rail — wider at base, converges at top */}
+            <path d="M8 29L13.5 4" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>
+            {/* Right rail */}
+            <path d="M24 29L18.5 4" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>
+            {/* Bottom crosstie */}
+            <path d="M9.5 25L22.5 25" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+            {/* Mid crosstie */}
+            <path d="M12 16.5L20 16.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" opacity="0.8"/>
+            {/* Top crosstie */}
+            <path d="M14 9L18 9" stroke="white" strokeWidth="1.8" strokeLinecap="round" opacity="0.55"/>
           </svg>
         </span>
-        <span className="font-semibold text-[15px] tracking-tight text-gray-900">CreditRails</span>
+        <span className="font-extrabold text-[17px] tracking-tight text-gray-900 group-hover:text-[#998DFF] transition-colors duration-200">
+          CreditRails
+        </span>
       </a>
 
       {/* Desktop nav */}
@@ -44,14 +53,8 @@ export default function Navbar() {
       {/* CTA buttons */}
       <div className="hidden md:flex items-center gap-3">
         <a
-          href="/docs"
-          className="px-4 py-2 text-sm rounded-xl bg-[#F4F3FF] text-[#A398FF] font-medium hover:bg-[#ede9ff] transition-colors"
-        >
-          Documentation
-        </a>
-        <a
           href="/app"
-          className="px-4 py-2 text-sm rounded-xl bg-[#998DFF] text-white font-medium hover:bg-[#8a7ef0] transition-colors"
+          className="px-4 py-2 text-sm rounded-xl bg-[#998DFF] text-white font-medium hover:bg-[#8a7ef0] transition-colors shadow-sm shadow-[#998DFF]/30"
         >
           Launch App
         </a>
@@ -85,9 +88,6 @@ export default function Navbar() {
             </a>
           ))}
           <div className="flex gap-3 pt-2">
-            <a href="/docs" className="px-4 py-2 text-sm rounded-xl bg-[#F4F3FF] text-[#A398FF] font-medium">
-              Documentation
-            </a>
             <a href="/app" className="px-4 py-2 text-sm rounded-xl bg-[#998DFF] text-white font-medium">
               Launch App
             </a>

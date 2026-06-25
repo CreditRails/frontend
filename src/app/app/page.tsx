@@ -180,11 +180,16 @@ export default function DashboardPage() {
       {/* Sidebar */}
       <aside className={`${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 fixed md:static z-40 h-full w-64 bg-white border-r border-gray-100 flex flex-col transition-transform duration-200`}>
         <a href="/" className="flex items-center gap-2.5 px-6 h-16 border-b border-gray-100 hover:bg-gray-50 transition-colors">
-          <span className="w-8 h-8 rounded-xl bg-[#998DFF] flex items-center justify-center shadow-sm shadow-[#998DFF]/40">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-              <path d="M4 15L9 3L14 15" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M6 11h6" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
-              <path d="M4.8 14h8.4" stroke="white" strokeWidth="1.6" strokeLinecap="round"/>
+          <span
+            className="w-9 h-9 rounded-xl flex items-center justify-center shadow-lg shadow-[#998DFF]/30 flex-shrink-0"
+            style={{ background: "linear-gradient(150deg, #c4bcff 0%, #998DFF 45%, #6148d0 100%)" }}
+          >
+            <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+              <path d="M8 29L13.5 4" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>
+              <path d="M24 29L18.5 4" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>
+              <path d="M9.5 25L22.5 25" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+              <path d="M12 16.5L20 16.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" opacity="0.8"/>
+              <path d="M14 9L18 9" stroke="white" strokeWidth="1.8" strokeLinecap="round" opacity="0.55"/>
             </svg>
           </span>
           <span className="font-semibold text-[15px] tracking-tight text-gray-900">CreditRails</span>

@@ -1,3 +1,7 @@
+"use client";
+
+import { WobbleCard } from "./ui/wobble-card";
+
 const integrations = [
   {
     name: "Stellar",
@@ -103,6 +107,56 @@ export default function Integrations() {
           More integrations via the open CreditRails SDK →{" "}
           <a href="#docs" className="text-[#998DFF] hover:underline">Read the docs</a>
         </p>
+
+        {/* Wobble cards */}
+        <div className="mt-16 grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
+          <WobbleCard
+            containerClassName="col-span-1 lg:col-span-2 min-h-[280px] lg:min-h-[260px]"
+            style={{ background: "linear-gradient(135deg, #D2B0F5 0%, #B27CEB 60%, #9544E4 100%)" }}
+          >
+            <div className="max-w-xs">
+              <h2 className="text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
+                CreditRails powers on-chain credit across Stellar
+              </h2>
+              <p className="mt-4 text-left text-base/6 text-white/80">
+                With one wallet connect, users get a portable credit score that
+                works across every Stellar-native app — no forms, no bank statements.
+              </p>
+            </div>
+          </WobbleCard>
+
+          <WobbleCard
+            containerClassName="col-span-1 min-h-[260px]"
+            style={{ background: "linear-gradient(135deg, #B27CEB 0%, #9544E4 100%)" }}
+          >
+            <h2 className="max-w-80 text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
+              Privacy by design.
+            </h2>
+            <p className="mt-4 max-w-[26rem] text-left text-base/6 text-white/80">
+              Lenders verify your score without ever seeing your transaction history. You own your credential.
+            </p>
+          </WobbleCard>
+
+          <WobbleCard
+            containerClassName="col-span-1 lg:col-span-3 min-h-[220px]"
+            style={{ background: "linear-gradient(135deg, #9544E4 0%, #816CA5 100%)" }}
+          >
+            <div className="max-w-sm">
+              <h2 className="text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
+                Build credit-aware apps with the CreditRails SDK
+              </h2>
+              <p className="mt-4 max-w-[26rem] text-left text-base/6 text-white/80">
+                One API call returns a score, risk tier, and W3C verifiable credential — ready for any Stellar lending or payments app.
+              </p>
+            </div>
+            <a
+              href="/docs"
+              className="mt-6 inline-block px-5 py-2.5 rounded-xl bg-white/20 text-white text-sm font-semibold hover:bg-white/30 transition-colors border border-white/20"
+            >
+              Read the docs →
+            </a>
+          </WobbleCard>
+        </div>
       </div>
     </section>
   );
