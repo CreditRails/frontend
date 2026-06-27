@@ -34,13 +34,13 @@ export default function CTA() {
           </p>
           <div className="relative mt-7 md:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
             <a
-              href="#app"
+              href="/app"
               className="px-7 py-3 rounded-2xl bg-[#998DFF] text-white font-semibold text-sm hover:bg-[#8a7ef0] transition-colors shadow-lg shadow-[#998DFF]/30 text-center"
             >
               Launch App
             </a>
             <a
-              href="#docs"
+              href="/docs"
               className="px-7 py-3 rounded-2xl bg-white/70 backdrop-blur-sm text-[#A398FF] font-semibold text-sm hover:bg-white transition-colors border border-white/60 text-center"
             >
               Read Docs

@@ -5,7 +5,6 @@ import { useState } from "react";
 const navLinks = [
   { label: "Protocol", href: "#protocol" },
   { label: "Docs", href: "/docs" },
-  { label: "Integrations", href: "#integrations" },
 ];
 
 export default function Navbar() {
