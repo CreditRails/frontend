@@ -16,7 +16,7 @@ const FILL = arcD(CX, CY, R, START, START + 240 * (742 / 850));
 
 function ScoreCard() {
   return (
-    <div className="relative w-72 md:w-80">
+    <div className="relative w-80 md:w-96">
       <div className="absolute inset-0 rounded-3xl bg-[#998DFF]/20 blur-3xl scale-90 translate-y-6 pointer-events-none" />
 
       <div className="relative rounded-3xl bg-white border border-gray-100 shadow-2xl shadow-[#998DFF]/10 p-6 overflow-hidden">
@@ -44,13 +44,13 @@ function ScoreCard() {
         </div>
 
         <div className="flex justify-center mb-1">
-          <svg viewBox="0 0 128 100" className="w-44 h-[130px]">
+          <svg viewBox="0 0 128 110" className="w-44 h-[140px]">
             <path d={TRACK} fill="none" stroke="#F0EEFF" strokeWidth="10" strokeLinecap="round" />
             <path d={FILL} fill="none" stroke="#998DFF" strokeWidth="10" strokeLinecap="round" />
             <path d={FILL} fill="none" stroke="#c4bcff" strokeWidth="4" strokeLinecap="round" opacity="0.5" />
-            <text x={CX} y={CY - 2} textAnchor="middle" fontSize="32" fontWeight="800" fill="#1a1a2e" fontFamily="system-ui">742</text>
-            <text x={CX} y={CY + 17} textAnchor="middle" fontSize="11" fill="#998DFF" fontWeight="700">/ 850</text>
-            <text x={CX} y={CY + 32} textAnchor="middle" fontSize="9" fill="#9ca3af" letterSpacing="1.5">CREDIT SCORE</text>
+            <text x={CX} y={CY + 2} textAnchor="middle" fontSize="16" fontWeight="800" fill="#1a1a2e" fontFamily="system-ui">742</text>
+            <text x={CX} y={CY + 20} textAnchor="middle" fontSize="16" fontWeight="700" fill="#998DFF" fontFamily="system-ui">/ 850</text>
+            <text x={CX} y={CY + 42} textAnchor="middle" fontSize="9" fill="#9ca3af" letterSpacing="1.5">CREDIT SCORE</text>
           </svg>
         </div>
 
