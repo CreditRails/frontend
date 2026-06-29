@@ -24,17 +24,8 @@ function ScoreCard() {
 
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2">
-            <span
-              className="w-7 h-7 rounded-xl flex items-center justify-center shadow-md shadow-[#998DFF]/30"
-              style={{ background: "linear-gradient(150deg, #c4bcff 0%, #998DFF 45%, #6148d0 100%)" }}
-            >
-              <svg width="13" height="13" viewBox="0 0 32 32" fill="none">
-                <path d="M8 29L13.5 4" stroke="white" strokeWidth="3" strokeLinecap="round" />
-                <path d="M24 29L18.5 4" stroke="white" strokeWidth="3" strokeLinecap="round" />
-                <path d="M9.5 25L22.5 25" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-                <path d="M12 16.5L20 16.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" opacity="0.8" />
-              </svg>
-            </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/creditrails-logo.png" alt="CreditRails" className="w-7 h-7 rounded-xl" />
             <span className="text-xs font-bold text-gray-800 tracking-tight">CreditRails</span>
           </div>
           <span className="text-[10px] font-semibold text-green-600 bg-green-50 px-2.5 py-1 rounded-full flex items-center gap-1.5">

@@ -231,18 +231,8 @@ export default function DocsPage() {
       {/* Sidebar */}
       <aside className={`${mobileNavOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0 fixed md:static z-40 h-full md:h-auto flex flex-col w-56 shrink-0 border-r border-gray-100 pt-8 pb-8 md:sticky md:top-0 md:h-screen bg-white transition-transform duration-200`}>
         <a href="/" className="flex items-center gap-2 px-6 mb-6">
-          <span
-            className="w-8 h-8 rounded-xl flex items-center justify-center shadow-lg shadow-[#998DFF]/30 flex-shrink-0"
-            style={{ background: "linear-gradient(150deg, #c4bcff 0%, #998DFF 45%, #6148d0 100%)" }}
-          >
-            <svg width="18" height="18" viewBox="0 0 32 32" fill="none">
-              <path d="M8 29L13.5 4" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>
-              <path d="M24 29L18.5 4" stroke="white" strokeWidth="2.8" strokeLinecap="round"/>
-              <path d="M9.5 25L22.5 25" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
-              <path d="M12 16.5L20 16.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" opacity="0.8"/>
-              <path d="M14 9L18 9" stroke="white" strokeWidth="1.8" strokeLinecap="round" opacity="0.55"/>
-            </svg>
-          </span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/creditrails-logo.png" alt="CreditRails" className="w-8 h-8 rounded-xl flex-shrink-0" />
           <span className="font-extrabold text-sm text-gray-900">CreditRails</span>
         </a>
 
