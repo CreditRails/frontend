@@ -34,16 +34,6 @@ export default function Navbar() {
         ))}
       </div>
 
-      {/* CTA buttons */}
-      <div className="hidden md:flex items-center gap-3">
-        <a
-          href="/app"
-          className="px-4 py-2 text-sm rounded-xl bg-[#998DFF] text-white font-medium hover:bg-[#8a7ef0] transition-colors shadow-sm shadow-[#998DFF]/30"
-        >
-          Launch App
-        </a>
-      </div>
-
       {/* Mobile hamburger */}
       <button
         className="md:hidden p-2 text-gray-500"
@@ -71,11 +61,6 @@ export default function Navbar() {
               {l.label}
             </a>
           ))}
-          <div className="flex gap-3 pt-2">
-            <a href="/app" className="px-4 py-2 text-sm rounded-xl bg-[#998DFF] text-white font-medium">
-              Launch App
-            </a>
-          </div>
         </div>
       )}
     </nav>

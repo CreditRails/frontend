@@ -186,12 +186,12 @@ export default function Hero() {
             </div>
 
             <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
-              <a
-                href="/app"
+              <button
+                type="button"
                 className="px-6 py-3 rounded-2xl bg-[#998DFF] text-white font-semibold text-sm hover:bg-[#8a7ef0] transition-colors shadow-lg shadow-[#998DFF]/30 text-center"
               >
                 Get Credit Score
-              </a>
+              </button>
               <a
                 href="#protocol"
                 className="px-6 py-3 rounded-2xl bg-[#F4F3FF] text-[#A398FF] font-semibold text-sm hover:bg-[#ede9ff] transition-colors text-center"
