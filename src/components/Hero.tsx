@@ -179,6 +179,12 @@ export default function Hero() {
               application.
             </p>
 
+            <div className="mt-4 inline-flex items-center gap-2 h-9 px-3.5 rounded-full border border-gray-200 self-center lg:self-start">
+              <span className="text-sm font-medium text-gray-700">Built on Stellar</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/stellar-logo-icon.png" alt="Stellar" className="w-5 h-5 rounded-full" />
+            </div>
+
             <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
               <a
                 href="/app"

@@ -265,15 +265,6 @@ export default function DocsPage() {
             </button>
           ))}
         </nav>
-
-        <div className="mt-6 px-4">
-          <a
-            href="/app"
-            className="block w-full text-center px-3 py-2 rounded-xl bg-[#998DFF] text-white text-xs font-semibold hover:bg-[#8a7ef0] transition-colors"
-          >
-            Launch Dashboard →
-          </a>
-        </div>
       </aside>
 
       {/* Mobile sidebar overlay */}
